@@ -6,7 +6,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
-
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -16,10 +16,14 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     LoadingSpinnerComponent,
     HeaderComponent,
     FooterComponent,
-    DateFormatPipe
+    DateFormatPipe,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
+  ],
+  exports: [
+    HeaderComponent
   ]
 })
 export class SharedModule { }
