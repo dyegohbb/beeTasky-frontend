@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-gradient-to-b from-white to-yellow-50">
+    <div class="container mx-auto px-4 py-1">
+      <div class="text-center mb-16">
+        <div class="flex justify-center items-center mb-6">
+          <i class="fas fa-bee text-6xl text-yellow-400"></i>
+        </div>
+
+        <i class="fa-brands fa-hive text-yellow-400 text-7xl"></i>
+        <h1 class="py-1 text-5xl font-bold text-gray-800 mb-4">BeeTasky</h1>
+        <p class="text-xl text-gray-600 mb-8">Organize suas tarefas com a eficiência de uma colmeia 🐝</p>
+        <button *ngIf="isAuthenticated" routerLink="/tasks" class="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:scale-105 duration-200">
+          Começar Agora
+        </button>
+        <button *ngIf="!isAuthenticated" routerLink="/auth/login" class="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:scale-105 duration-200">
+          Começar Agora
+        </button>
+      </div>
+  
+      <div class="grid md:grid-cols-3 gap-8 mb-16">
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200">
+          <div class="text-yellow-400 mb-4">
+            <i class="fas fa-clipboard-list text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Organização Simplificada</h3>
+          <p class="text-gray-600">Gerencie suas tarefas de forma intuitiva e eficiente, como uma abelha organiza sua colmeia.</p>
+        </div>
+  
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200">
+          <div class="text-yellow-400 mb-4">
+            <i class="fas fa-chart-line text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Produtividade Máxima</h3>
+          <p class="text-gray-600">Aumente sua produtividade com lembretes e priorização inteligente de tarefas.</p>
+        </div>
+  
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200">
+          <div class="text-yellow-400 mb-4">
+            <i class="fas fa-bolt text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Rápido e Eficiente</h3>
+          <p class="text-gray-600">Interface ágil e responsiva para você focar no que realmente importa.</p>
+        </div>
+      </div>
+  
+      <div *ngIf="!isAuthenticated" class="text-center bg-yellow-100 rounded-xl p-8 shadow-inner">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Pronto para ser mais produtivo?</h2>
+        <p class="text-gray-600 mb-6">Junte-se a milhares de usuários que já organizaram suas vidas com o BeeTasky.</p>
+        <div class="flex justify-center space-x-4">
+          <button routerLink="/auth/register" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-6 rounded-full transform transition hover:scale-105 duration-200">
+            Criar Conta
+          </button>
+          <button routerLink="/auth/login" class="bg-transparent hover:bg-gray-800 text-gray-800 font-semibold hover:text-white py-2 px-6 border border-gray-800 hover:border-transparent rounded-full transform transition hover:scale-105 duration-200">
+            Fazer Login
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <footer class="text-center py-8 text-gray-600">
+      <p>© 2025 BeeTasky. Todos os direitos reservados. 🐝</p>
+    </footer>
+  </div>

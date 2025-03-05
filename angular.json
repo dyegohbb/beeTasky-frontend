@@ -39,7 +39,9 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": []
           },
@@ -77,7 +79,10 @@
               "buildTarget": "beeTasky-frontend:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -105,5 +110,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "954f3266-1408-4487-ae8b-0df329946f20"
   }
 }
