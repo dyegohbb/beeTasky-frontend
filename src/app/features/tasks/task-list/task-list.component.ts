@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
-import { TaskDTO, TaskFilterDTO } from '../models/task.model';
-import { TaskStatusEnum } from '../models/task.model';
+import { CommonModule } from '@angular/common';
+import { TaskDTO, TaskFilterDTO, TaskStatusEnum } from '../../../core/models/task.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TaskService } from '../../../core/services/task.service';
 import { ToastrService } from 'ngx-toastr';
+import { TaskDetailsModalComponent } from '../task-details-modal/task-details-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-task-list',
-  standalone: false,
   templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.scss'
+  standalone: true,
+  imports: [CommonModule, TaskDetailsModalComponent, ReactiveFormsModule]
 })
 export class TaskListComponent {
   filterForm: FormGroup;
@@ -25,6 +27,9 @@ export class TaskListComponent {
   currentPage = 0;
   pageSize = 10;
   hasNextPage = false;
+  selectedTask?: TaskDTO;
+  isModalOpen = false;
+  modalMode: 'create' | 'view' | 'edit' = 'view';
 
   constructor(private fb: FormBuilder, private taskService: TaskService, private toastr: ToastrService) {
     this.filterForm = this.fb.group({
@@ -49,7 +54,7 @@ export class TaskListComponent {
 
     let startDateString = this.filterForm.get('createdOnStartDate')?.value;
     let endDateString = this.filterForm.get('createdOnEndDate')?.value;
-    
+
     let startDate = new Date(startDateString);
     let endDate = new Date(endDateString);
 
@@ -84,7 +89,7 @@ export class TaskListComponent {
       createdOnEndDate: null,
       deadlineStartDate: null,
       deadlineEndDate: null
-    }, 0, this.pageSize, 'deadline,desc');
+    }, 0, this.pageSize, 'deadline,asc');
   }
 
   loadTasks(filter: TaskFilterDTO, page: number, size: number, sort: string) {
@@ -177,4 +182,68 @@ export class TaskListComponent {
     this.applyFilter();
   }
 
+  openCreateTask(): void {
+    this.selectedTask = undefined;
+    this.modalMode = 'create';
+    this.isModalOpen = true;
+  }
+
+  openTaskDetails(task: TaskDTO): void {
+    this.selectedTask = task;
+    this.modalMode = 'view';
+    this.isModalOpen = true;
+  }
+
+  onSaveTask(taskData: TaskDTO): void {
+    if (taskData.identifier) {
+      this.taskService.updateTask(taskData.identifier, taskData).subscribe({
+        next: (response) => {
+          this.toastr.success('Task atualizada com sucesso!', 'Sucesso');
+          this.applyFilter();
+          this.isModalOpen = false;
+        },
+        error: (error) => {
+          this.isModalOpen = false;
+          console.error('Erro ao atualizar task:', error);
+          this.toastr.error(
+            error.error?.message || 'Não foi possível atualizar a task. Tente novamente.',
+            'Erro'
+          );
+        }
+      });
+    } else {
+      this.taskService.createTask(taskData).subscribe({
+        next: (response) => {
+          this.toastr.success('Task criada com sucesso!', 'Sucesso');
+          this.applyFilter();
+          this.isModalOpen = false;
+        },
+        error: (error) => {
+          console.error('Erro ao criar task:', error);
+          this.toastr.error(
+            error.error?.message || 'Não foi possível criar a task. Tente novamente.',
+            'Erro'
+          );
+        }
+      });
+    }
+  }
+
+  onDeleteTask(taskId: string): void {
+    this.taskService.deleteTask(taskId).subscribe({
+      next: () => {
+        this.isModalOpen = false;
+        this.toastr.success('Task excluída com sucesso!', 'Sucesso');
+        this.applyFilter();
+      },
+      error: (error) => {
+        this.isModalOpen = false;
+        console.error('Erro ao excluir task:', error);
+        this.toastr.error(
+          error.error?.message || 'Não foi possível excluir a task. Tente novamente.',
+          'Erro'
+        );
+      }
+    });
+  }
 }

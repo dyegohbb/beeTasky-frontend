@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { ContactComponent } from './features/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: 'contact',
+    component: ContactComponent
   },
   {
     path: '',

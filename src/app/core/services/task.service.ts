@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TaskDTO, TaskFilterDTO } from '../../features/tasks/models/task.model';
+import { TaskDTO, TaskFilterDTO } from '../models/task.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/apiResponse.model';
 
@@ -48,5 +48,27 @@ export class TaskService {
               .set('sort', sort);
 
     return this.http.get<ApiResponse<TaskDTO[]>>(this.apiUrl, { params });
+  }
+
+  createTask(task: TaskDTO): Observable<ApiResponse<TaskDTO>> {
+    return this.http.post<ApiResponse<TaskDTO>>(this.apiUrl, {
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      deadline: task.deadline
+    });
+  }
+
+  updateTask(taskId: string, task: TaskDTO): Observable<ApiResponse<TaskDTO>> {
+    return this.http.put<ApiResponse<TaskDTO>>(`${this.apiUrl}/${taskId}`, {
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      deadline: task.deadline
+    });
+  }
+
+  deleteTask(taskId: string): Observable<ApiResponse<void>> {
+    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${taskId}`);
   }
 }

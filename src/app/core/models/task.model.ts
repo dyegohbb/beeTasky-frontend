@@ -1,6 +1,6 @@
 export interface UserDTO {
     identifier: string;
-    name: string;
+    username: string;
     email: string;
 }
 
