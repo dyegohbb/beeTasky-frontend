@@ -1,59 +1,79 @@
-# BeeTaskyFrontend
+# BeeTasky - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
+Sistema de gerenciamento de tarefas desenvolvido com Angular 19.
 
-## Development server
+## Tecnologias
 
-To start a local development server, run:
+- Angular 19
+- TailwindCSS 4
+- SweetAlert2
+- NgxToastr
+- NgxBootstrap
 
-```bash
-ng serve
-```
+## Pré-requisitos
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js
+- npm
+- Angular CLI 19\
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Instalação
+1. Clone o repositório
 
 ```bash
-ng generate --help
+git clone git@github.com:seu-usuario/beeTasky-frontend.git
+cd beeTasky-frontend
 ```
 
-## Building
-
-To build the project run:
+2. Instale as dependências:
 
 ```bash
-ng build
+npm install
+```
+3. Configure o proxy:
+
+O projeto utiliza um proxy para se comunicar com o backend. Certifique-se de que o arquivo `proxy.conf.json` está configurado corretamente:
+
+```json
+{
+    "/api": {
+        "target": "http://localhost:8080",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/api": ""
+        }
+    }
+}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+4. Inicie o projeto com proxy:
 
 ```bash
-ng test
+ng serve --proxy-config proxy.conf.json
 ```
 
-## Running end-to-end tests
+O aplicativo estará disponível em `http://localhost:4200`
 
-For end-to-end (e2e) testing, run:
+## Funcionalidades
 
-```bash
-ng e2e
+- Autenticação de usuários
+- Registro de novos usuários
+- Gerenciamento de tarefas (CRUD)
+- Respostas intuitivas e visuais
+- Filtros e ordenação
+- Paginação
+
+## Estrutura do projeto
+
+```
+src/
+├── app/
+│ ├── core/         # Serviços, guards, models e interceptors
+│ ├── features/     # Módulos principais da aplicação
+│ │ ├── auth/       # Autenticação e registro
+│ │ ├── tasks/      # Gerenciamento de tarefas
+│ │ ├── home/       # Página inicial
+│ │ └── contact/    # Página de contato
+│ └── shared/       # Componentes compartilhados
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
