@@ -1,15 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthResponse, LoginRequest } from '../models/auth.model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
   private baseUrl = '/api/auth';
+  private authStateSubject = new BehaviorSubject<boolean>(false);
+  authState$ = this.authStateSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.authStateSubject.next(this.isAuthenticated());
+  }
 
   login(loginRequest: LoginRequest): Observable<AuthResponse> {
     const headers = new HttpHeaders({
@@ -23,7 +27,20 @@ export class AuthService {
       {
         headers: headers
       }
+    ).pipe(
+      tap((response: AuthResponse) => {
+        this.authStateSubject.next(true);
+      }),
+      catchError(error => {
+        this.authStateSubject.next(false);
+        throw error;
+      })
     );
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    this.authStateSubject.next(false);
   }
 
   setToken(token: string): void {

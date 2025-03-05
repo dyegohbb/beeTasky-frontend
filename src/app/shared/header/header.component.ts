@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd } from '@angular/router';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../core/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -9,13 +11,21 @@ import { filter } from 'rxjs/operators';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
-
+export class HeaderComponent implements OnInit {
   isMobileMenuOpen = false;
   isAnimating = false;
   showHeader = false;
+  isAuthenticated = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService, private toastr: ToastrService) {}
+
+  ngOnInit() {
+    this.authService.authState$.subscribe(
+      (isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+      }
+    );
+    
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
@@ -23,14 +33,13 @@ export class HeaderComponent {
     });
   }
 
-  toggleMobileMenu() {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  logout() {
+    this.authService.logout();
+    this.toastr.success('Logout realizado com sucesso! Volte logo!');
+    this.router.navigate(['/auth/login']);
   }
 
-  toggleDecoration() {
-    this.isAnimating = true;
-    setTimeout(() => {
-      this.isAnimating = false;
-    }, 1000);
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 }
