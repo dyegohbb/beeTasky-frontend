@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { 
   User, 
   CreateUserRequest, 
-  UpdateUserRequest, 
-  ApiResponse 
+  UpdateUserRequest
 } from '../models/user.model';
-
+import { ApiResponse } from '../models/apiResponse.model';
 @Injectable({
   providedIn: 'root'
 })

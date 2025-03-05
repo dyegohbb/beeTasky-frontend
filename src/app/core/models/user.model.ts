@@ -16,10 +16,3 @@ export type UpdateUserRequest = {
   currentPassword?: string;
   email?: string;
 }
-
-export type ApiResponse<T = void> = {
-  apiVersion: string;
-  content?: T;
-  message: string;
-  timestamp: string;
-}
