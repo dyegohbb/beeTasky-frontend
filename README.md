@@ -77,3 +77,8 @@ src/
 │ └── shared/       # Componentes compartilhados
 ```
 
+## Melhorias futuras:
+- Implementação de i18n
+- Criação de tela/menu de gerenciamento de perfil/usuário
+- Acompanhar as melhorias do back-end de novas roles, permissões e listagens
+- Criação de tela de gerenciamento de administrador
